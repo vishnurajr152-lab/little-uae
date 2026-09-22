@@ -2,311 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Little UAE - Abu Dhabi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Little UAE</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-user-select:none;
+  user-select:none;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-  background: #8ed8f8;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:#b9e8f5;
 }
 
-#game {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+#game{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  touch-action:none;
+}
+
+/* BIG MAP */
+#map{
+  position:absolute;
+  width:2400px;
+  height:1800px;
+  left:0;
+  top:0;
   background:
-    linear-gradient(
-      to bottom,
-      #83d8f5 0%,
-      #b9e9f7 48%,
-      #d9b36c 48%,
-      #d9b36c 100%
-    );
+    linear-gradient(90deg,transparent 0 49%,rgba(255,255,255,.18) 50%,transparent 51%),
+    #d8c58d;
 }
 
-/* TOP STATUS */
-
-#top {
-  position: absolute;
-  top: 10px;
-  left: 8px;
-  right: 8px;
-  z-index: 20;
-  display: flex;
-  justify-content: space-between;
-  gap: 6px;
+/* Sea */
+.sea{
+  position:absolute;
+  background:#63c8df;
 }
 
-.status {
-  background: rgba(255,255,255,.94);
-  padding: 8px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: bold;
-  box-shadow: 0 3px 10px rgba(0,0,0,.18);
+.sea1{
+  width:650px;
+  height:1800px;
+  left:0;
+  top:0;
 }
 
-/* LOCATION */
-
-#location {
-  position: absolute;
-  top: 65px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-
-  background: rgba(0,0,0,.72);
-  color: white;
-  padding: 9px 16px;
-  border-radius: 20px;
-  font-weight: bold;
+.sea2{
+  width:900px;
+  height:300px;
+  right:0;
+  top:0;
 }
 
-/* CITY */
-
-#city {
-  position: absolute;
-  top: 48%;
-  left: 0;
-  width: 100%;
-  height: 52%;
+/* Roads */
+.road{
+  position:absolute;
+  background:#555;
+  border:8px solid #777;
 }
 
-/* ROAD */
-
-.road {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 85px;
-  background: #303030;
-  border-top: 5px solid #eeeeee;
-  border-bottom: 5px solid #eeeeee;
+.road.h{
+  width:2300px;
+  height:100px;
 }
 
-.roadLine {
-  position: absolute;
-  top: 37px;
-  width: 100%;
-  border-top: 5px dashed #ffd43b;
+.road.v{
+  width:100px;
+  height:1700px;
 }
 
-.road1 {
-  top: 20px;
+.line{
+  position:absolute;
+  background:#f5d85c;
 }
 
-.road2 {
-  top: 170px;
+/* Buildings */
+.building{
+  position:absolute;
+  background:#e9e0cc;
+  border:5px solid #b3a78d;
+  border-radius:12px;
+  box-shadow:4px 5px 0 rgba(0,0,0,.15);
 }
 
-/* BUILDINGS */
-
-.building {
-  position: absolute;
-  width: 100px;
-  height: 115px;
-  border-radius: 8px 8px 2px 2px;
-  border: 3px solid #555;
-  bottom: 155px;
-  text-align: center;
-  padding-top: 8px;
-  font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0,0,0,.2);
+.building span{
+  display:block;
+  text-align:center;
+  margin-top:12px;
+  font-weight:bold;
+  color:#4d463a;
+  font-size:18px;
 }
 
-.building span {
-  display: block;
-  font-size: 35px;
-  margin-top: 8px;
+/* Locations */
+.location{
+  position:absolute;
+  padding:12px 18px;
+  background:white;
+  border-radius:15px;
+  font-weight:bold;
+  font-size:18px;
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
 }
 
-.b1 {
-  left: 5%;
-  background: #f1c27d;
+/* Palm */
+.palm{
+  position:absolute;
+  font-size:38px;
 }
 
-.b2 {
-  left: 28%;
-  background: #eeeeee;
+/* CHARACTER */
+#player{
+  position:absolute;
+  width:58px;
+  height:72px;
+  z-index:20;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  font-size:52px;
+  line-height:60px;
+  filter:drop-shadow(0 4px 2px rgba(0,0,0,.3));
 }
 
-.b3 {
-  right: 28%;
-  background: #d5e6ef;
+#playerName{
+  position:absolute;
+  top:-25px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.7);
+  color:white;
+  padding:4px 8px;
+  border-radius:8px;
+  font-size:12px;
+  white-space:nowrap;
 }
 
-.b4 {
-  right: 5%;
-  background: #f3d39b;
+/* TOP UI */
+#ui{
+  position:fixed;
+  z-index:100;
+  top:12px;
+  left:12px;
+  right:12px;
+  display:flex;
+  justify-content:space-between;
+  pointer-events:none;
 }
 
-/* PALM TREES */
-
-.tree {
-  position: absolute;
-  font-size: 45px;
+.card{
+  background:rgba(255,255,255,.94);
+  padding:9px 13px;
+  border-radius:14px;
+  box-shadow:0 3px 10px rgba(0,0,0,.2);
+  font-weight:bold;
+  font-size:14px;
 }
 
-.t1 {
-  left: 17%;
-  bottom: 275px;
+/* JOYSTICK */
+#joystick{
+  position:fixed;
+  z-index:200;
+  left:25px;
+  bottom:25px;
+  width:145px;
+  height:145px;
+  border-radius:50%;
+  background:rgba(0,0,0,.22);
+  border:3px solid rgba(255,255,255,.65);
+  touch-action:none;
 }
 
-.t2 {
-  right: 17%;
-  bottom: 275px;
+#stick{
+  position:absolute;
+  width:62px;
+  height:62px;
+  left:41px;
+  top:41px;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 4px 10px rgba(0,0,0,.3);
 }
 
-/* SEA */
-
-#sea {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 25%;
-  height: 100%;
-  background: #39a9d6;
-  opacity: .8;
+/* ACTION BUTTON */
+#action{
+  position:fixed;
+  z-index:200;
+  right:25px;
+  bottom:35px;
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  border:0;
+  background:#fff;
+  font-size:30px;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
 }
 
-/* PLAYER */
-
-#player {
-  position: absolute;
-  left: 50%;
-  bottom: 205px;
-  transform: translateX(-50%);
-  z-index: 15;
-  font-size: 48px;
-  transition: left .25s ease;
+/* LOCATION TEXT */
+#locationText{
+  position:fixed;
+  z-index:100;
+  top:62px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.72);
+  color:white;
+  padding:8px 14px;
+  border-radius:12px;
+  font-size:14px;
 }
 
 /* MESSAGE */
-
-#message {
-  position: absolute;
-  top: 105px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-
-  background: white;
-  padding: 11px 17px;
-  border-radius: 15px;
-  font-weight: bold;
-
-  display: none;
-  box-shadow: 0 4px 15px rgba(0,0,0,.25);
+#message{
+  position:fixed;
+  z-index:300;
+  left:50%;
+  bottom:190px;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.8);
+  color:white;
+  padding:10px 16px;
+  border-radius:12px;
+  opacity:0;
+  transition:.3s;
+  pointer-events:none;
 }
 
-/* LOCATION MENU */
-
-#places {
-  position: absolute;
-  top: 105px;
-  left: 10px;
-  z-index: 25;
-
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.place {
-  border: none;
-  background: white;
-  padding: 7px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: bold;
-  box-shadow: 0 2px 7px rgba(0,0,0,.18);
-}
-
-/* CONTROLS */
-
-#controls {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 40;
-
-  display: flex;
-  gap: 10px;
-}
-
-.control {
-  width: 62px;
-  height: 55px;
-  border: none;
-  border-radius: 16px;
-
-  background: white;
-  font-size: 24px;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,.25);
-}
-
-.control:active {
-  transform: scale(.94);
-}
-
-/* JOB */
-
-#jobButton {
-  position: absolute;
-  right: 10px;
-  bottom: 90px;
-  z-index: 40;
-
-  border: none;
-  background: #ffffff;
-  padding: 12px 15px;
-  border-radius: 14px;
-
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0,0,0,.2);
-}
-
-/* MAP LABEL */
-
-.label {
-  position: absolute;
-  color: white;
-  font-size: 11px;
-  font-weight: bold;
-  background: rgba(0,0,0,.5);
-  padding: 5px 8px;
-  border-radius: 10px;
-}
-
-.label1 {
-  left: 5%;
-  top: 20%;
-}
-
-.label2 {
-  left: 25%;
-  top: 35%;
-}
-
-.label3 {
-  right: 28%;
-  top: 15%;
-}
-
-.label4 {
-  right: 5%;
-  top: 35%;
+#message.show{
+  opacity:1;
 }
 </style>
 </head>
@@ -315,316 +246,270 @@ body {
 
 <div id="game">
 
-  <!-- STATUS -->
+  <div id="map">
 
-  <div id="top">
-    <div class="status">
-      💰 AED <span id="money">100</span>
+    <div class="sea sea1"></div>
+    <div class="sea sea2"></div>
+
+    <!-- Roads -->
+    <div class="road h" style="left:100px;top:500px;"></div>
+    <div class="road h" style="left:100px;top:1050px;"></div>
+
+    <div class="road v" style="left:900px;top:80px;"></div>
+    <div class="road v" style="left:1600px;top:80px;"></div>
+
+    <!-- Road lines -->
+    <div class="line" style="left:150px;top:545px;width:2200px;height:8px;"></div>
+    <div class="line" style="left:150px;top:1095px;width:2200px;height:8px;"></div>
+    <div class="line" style="left:945px;top:120px;width:8px;height:1600px;"></div>
+    <div class="line" style="left:1645px;top:120px;width:8px;height:1600px;"></div>
+
+    <!-- Locations -->
+    <div class="location" style="left:1050px;top:300px;">
+      🏙️ Abu Dhabi City
     </div>
 
-    <div class="status">
-      ⚡ <span id="energy">100</span>%
+    <div class="location" style="left:450px;top:650px;">
+      🏗️ Mussafah
     </div>
 
-    <div class="status">
-      📅 Day <span id="day">1</span>
-    </div>
-  </div>
-
-  <!-- LOCATION -->
-
-  <div id="location">
-    📍 Mussafah
-  </div>
-
-  <!-- MESSAGE -->
-
-  <div id="message"></div>
-
-  <!-- PLACE MENU -->
-
-  <div id="places">
-
-    <button class="place" onclick="travel('Mussafah')">
-      🏭 Mussafah
-    </button>
-
-    <button class="place" onclick="travel('Shabiya')">
-      🏠 Shabiya
-    </button>
-
-    <button class="place" onclick="travel('Abu Dhabi City')">
-      🏙️ City
-    </button>
-
-    <button class="place" onclick="travel('Corniche')">
-      🌊 Corniche
-    </button>
-
-    <button class="place" onclick="travel('Yas Island')">
-      🏎️ Yas Island
-    </button>
-
-  </div>
-
-  <!-- CITY -->
-
-  <div id="city">
-
-    <div id="sea"></div>
-
-    <div class="building b1">
-      🏭
-      <br>
-      Work
-      <span>🏢</span>
+    <div class="location" style="left:1050px;top:700px;">
+      🏢 Shabiya
     </div>
 
-    <div class="building b2">
-      🏠
-      <br>
-      Room
-      <span>🏠</span>
+    <div class="location" style="left:1750px;top:350px;">
+      🌴 Corniche
     </div>
 
-    <div class="building b3">
-      🛒
-      <br>
-      Shop
-      <span>🛍️</span>
+    <div class="location" style="left:1800px;top:800px;">
+      🎢 Yas Island
     </div>
 
-    <div class="building b4">
-      🏨
-      <br>
-      Hotel
-      <span>🏨</span>
+    <!-- Buildings -->
+    <div class="building" style="left:350px;top:250px;width:230px;height:170px;">
+      <span>🏭 Factory</span>
     </div>
 
-    <div class="tree t1">🌴</div>
-    <div class="tree t2">🌴</div>
-
-    <div class="road road1">
-      <div class="roadLine"></div>
+    <div class="building" style="left:650px;top:700px;width:220px;height:180px;">
+      <span>🏠 House</span>
     </div>
 
-    <div class="road road2">
-      <div class="roadLine"></div>
+    <div class="building" style="left:1050px;top:850px;width:260px;height:190px;">
+      <span>🏢 Apartment</span>
     </div>
 
-    <div class="label label1">
-      MUSSAFAH
+    <div class="building" style="left:1450px;top:250px;width:250px;height:190px;">
+      <span>🏨 Hotel</span>
     </div>
 
-    <div class="label label2">
-      SHABIYA
+    <div class="building" style="left:1750px;top:1100px;width:270px;height:200px;">
+      <span>🛍️ Mall</span>
     </div>
 
-    <div class="label label3">
-      CITY
+    <div class="building" style="left:350px;top:1200px;width:260px;height:180px;">
+      <span>🕌 Mosque</span>
     </div>
 
-    <div class="label label4">
-      CORNICHE
+    <!-- Palms -->
+    <div class="palm" style="left:780px;top:350px;">🌴</div>
+    <div class="palm" style="left:850px;top:380px;">🌴</div>
+    <div class="palm" style="left:1350px;top:400px;">🌴</div>
+    <div class="palm" style="left:1450px;top:500px;">🌴</div>
+    <div class="palm" style="left:1900px;top:600px;">🌴</div>
+    <div class="palm" style="left:2050px;top:650px;">🌴</div>
+
+    <!-- Player -->
+    <div id="player">
+      🧍
+      <div id="playerName">Player</div>
     </div>
 
   </div>
 
-  <!-- PLAYER -->
-
-  <div id="player">
-    🧑
+  <!-- UI -->
+  <div id="ui">
+    <div class="card">💰 AED <span id="money">500</span></div>
+    <div class="card">⚡ <span id="energy">100</span>%</div>
   </div>
 
-  <!-- JOB -->
+  <div id="locationText">📍 Mussafah</div>
 
-  <button id="jobButton" onclick="work()">
-    💼 Work +AED 50
-  </button>
-
-  <!-- CONTROLS -->
-
-  <div id="controls">
-
-    <button class="control" onclick="move(-8)">
-      ⬅️
-    </button>
-
-    <button class="control" onclick="move(8)">
-      ➡️
-    </button>
-
-    <button class="control" onclick="rest()">
-      😴
-    </button>
-
+  <!-- Joystick -->
+  <div id="joystick">
+    <div id="stick"></div>
   </div>
+
+  <button id="action">👋</button>
+
+  <div id="message">Welcome to Little UAE!</div>
 
 </div>
 
-
 <script>
 
-let money = 100;
+const map = document.getElementById("map");
+const player = document.getElementById("player");
+const joystick = document.getElementById("joystick");
+const stick = document.getElementById("stick");
+const action = document.getElementById("action");
+const message = document.getElementById("message");
+const locationText = document.getElementById("locationText");
+
+let playerX = 600;
+let playerY = 600;
+
+let money = 500;
 let energy = 100;
-let day = 1;
 
-let playerX = 50;
+let joyX = 0;
+let joyY = 0;
+let moving = false;
 
-let currentLocation = "Mussafah";
+const speed = 4;
 
+/* Put player on map */
+function drawPlayer(){
 
-/* UPDATE */
+  player.style.left = playerX + "px";
+  player.style.top = playerY + "px";
 
-function update() {
+  /* Camera follows player */
+  let screenX = window.innerWidth / 2 - playerX;
+  let screenY = window.innerHeight / 2 - playerY;
 
-  document.getElementById("money").innerText = money;
+  const minX = window.innerWidth - map.offsetWidth;
+  const minY = window.innerHeight - map.offsetHeight;
 
-  document.getElementById("energy").innerText = energy;
+  screenX = Math.min(0, Math.max(minX, screenX));
+  screenY = Math.min(0, Math.max(minY, screenY));
 
-  document.getElementById("day").innerText = day;
+  map.style.transform =
+    `translate(${screenX}px,${screenY}px)`;
 
+  updateLocation();
 }
 
+/* Location */
+function updateLocation(){
 
-/* MOVE */
+  let name = "Little UAE";
 
-function move(amount) {
-
-  playerX += amount;
-
-  if (playerX < 5) {
-    playerX = 5;
+  if(playerX < 850 && playerY > 450 && playerY < 900){
+    name = "🏗️ Mussafah";
+  }
+  else if(playerX > 850 && playerX < 1450 && playerY > 600){
+    name = "🏢 Shabiya";
+  }
+  else if(playerX > 950 && playerX < 1500 && playerY < 600){
+    name = "🏙️ Abu Dhabi City";
+  }
+  else if(playerX > 1600 && playerY < 700){
+    name = "🌴 Corniche";
+  }
+  else if(playerX > 1600 && playerY > 700){
+    name = "🎢 Yas Island";
   }
 
-  if (playerX > 95) {
-    playerX = 95;
-  }
-
-  document.getElementById("player").style.left =
-    playerX + "%";
-
-  energy -= 2;
-
-  if (energy < 0) {
-    energy = 0;
-  }
-
-  update();
-
+  locationText.textContent = "📍 " + name;
 }
 
+/* Movement */
+function gameLoop(){
 
-/* TRAVEL */
+  if(moving){
 
-function travel(place) {
+    playerX += joyX * speed;
+    playerY += joyY * speed;
 
-  if (energy < 10) {
+    playerX = Math.max(40, Math.min(map.offsetWidth - 40, playerX));
+    playerY = Math.max(40, Math.min(map.offsetHeight - 40, playerY));
 
-    showMessage("⚡ Energy kuravaanu!");
+    if(energy > 0){
+      energy -= 0.02;
+      document.getElementById("energy").textContent =
+        Math.floor(energy);
+    }
 
-    return;
+    drawPlayer();
   }
 
-  currentLocation = place;
-
-  document.getElementById("location").innerText =
-    "📍 " + place;
-
-  energy -= 10;
-
-  if (place === "Mussafah") {
-    playerX = 15;
-  }
-
-  if (place === "Shabiya") {
-    playerX = 35;
-  }
-
-  if (place === "Abu Dhabi City") {
-    playerX = 55;
-  }
-
-  if (place === "Corniche") {
-    playerX = 75;
-  }
-
-  if (place === "Yas Island") {
-    playerX = 90;
-  }
-
-  document.getElementById("player").style.left =
-    playerX + "%";
-
-  showMessage("🚌 Travelled to " + place);
-
-  update();
-
+  requestAnimationFrame(gameLoop);
 }
 
+/* Joystick */
+function moveJoystick(clientX, clientY){
 
-/* WORK */
+  const rect = joystick.getBoundingClientRect();
 
-function work() {
+  let x = clientX - (rect.left + rect.width/2);
+  let y = clientY - (rect.top + rect.height/2);
 
-  if (energy < 20) {
+  const max = 42;
 
-    showMessage("😴 Rest cheyyanam!");
+  const distance = Math.sqrt(x*x + y*y);
 
-    return;
+  if(distance > max){
+
+    x = x / distance * max;
+    y = y / distance * max;
+
   }
 
-  money += 50;
+  stick.style.transform =
+    `translate(${x}px,${y}px)`;
 
-  energy -= 20;
+  joyX = x / max;
+  joyY = y / max;
 
-  showMessage("💼 Work completed! +AED 50");
-
-  update();
-
+  moving = true;
 }
 
+function stopJoystick(){
 
-/* REST */
+  stick.style.transform = "translate(0,0)";
 
-function rest() {
+  joyX = 0;
+  joyY = 0;
 
-  energy += 30;
+  moving = false;
+}
 
-  if (energy > 100) {
-    energy = 100;
+/* Touch */
+joystick.addEventListener("pointerdown",(e)=>{
+
+  joystick.setPointerCapture(e.pointerId);
+
+  moveJoystick(e.clientX,e.clientY);
+
+});
+
+joystick.addEventListener("pointermove",(e)=>{
+
+  if(moving){
+    moveJoystick(e.clientX,e.clientY);
   }
 
-  showMessage("😴 Energy restored!");
+});
 
-  update();
+joystick.addEventListener("pointerup",stopJoystick);
+joystick.addEventListener("pointercancel",stopJoystick);
 
-}
+/* Action button */
+action.addEventListener("click",()=>{
 
+  message.textContent = "👋 Hello from Little UAE!";
 
-/* MESSAGE */
+  message.classList.add("show");
 
-function showMessage(text) {
+  setTimeout(()=>{
+    message.classList.remove("show");
+  },1500);
 
-  const message =
-    document.getElementById("message");
+});
 
-  message.innerText = text;
-
-  message.style.display = "block";
-
-  setTimeout(function() {
-
-    message.style.display = "none";
-
-  }, 2000);
-
-}
-
-
-/* START */
-
-update();
+/* Start */
+drawPlayer();
+gameLoop();
 
 </script>
 
